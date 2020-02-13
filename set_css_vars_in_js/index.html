@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <title>👨🏻‍🔬 Set CSS vars with JS</title>
+  <meta charset="utf-8">
+  <style>
+    :root {
+      --local-text-primary: var(--text_primary, fuchsia);
+      --local-text-secondary: var(--text_secondary, green);
+      --local-text-tertiary: var(--text_tertiary, gray);
+      --local-surface: var(--surface, yellow);
+      --local-accent-primary: var(--accentPrimary, brown);
+      --local-accent-secondary: var(--accentSecondary, fuchsia);
+    }
+
+    body {
+      background-color: rgba(240, 240, 240);
+      color: var(--local-text-primary);
+      margin: 0;
+      padding: 0;
+    }
+
+    main {
+      background-color: var(--local-surface);
+    }
+
+    header > p {
+      color: var(--local-text-secondary);
+    }
+
+    footer {
+      color: var(--local-text-tertiary);
+    }
+
+    button {
+      background-color: var(--local-accent-primary);
+      color: var(--local-surface);
+      border-radius: 8px;
+      width: 300px;
+      height: 48px;
+      border: 0;
+    }
+
+  </style>
+  <script defer src="index.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>A tale of two goats</h1>
+      <p>AKA Amazing goat strikes again</p>
+    </header>
+    <article>
+      <p>Bacon ipsum dolor amet landjaeger beef pork chop kevin. Hamburger boudin ham hock biltong. Shank ground round frankfurter ribeye. Chicken shankle andouille, jowl kielbasa beef ribs corned beef. Ribeye chuck short ribs cupim, tenderloin buffalo spare ribs salami pig ball tip pork chop drumstick turducken shank pancetta.</p>
+
+<p>Prosciutto porchetta tail, meatball ground round sirloin swine short loin. Kevin pancetta pork loin, pork belly hamburger ham pastrami chicken sausage boudin andouille fatback ribeye ground round brisket. Porchetta frankfurter hamburger meatloaf, cow tongue boudin brisket t-bone strip steak kielbasa jerky. Shank cow bacon buffalo. Filet mignon shoulder sirloin, capicola pork chop shank meatloaf.</p>
+
+<p>Spare ribs shankle buffalo prosciutto turkey, short ribs andouille jowl pancetta boudin landjaeger bacon rump filet mignon. Cow tri-tip filet mignon, tongue beef ribs capicola salami cupim short ribs buffalo flank rump t-bone porchetta. Cow pig ham buffalo meatball ball tip biltong beef t-bone rump. Shank beef tongue swine corned beef bacon, tri-tip fatback t-bone.</p>
+    </article>
+  </main>
+  <footer>
+    <h2>Like the story?</h2>
+    <button type="button">Sign up now</button>
+  </footer>
+  <template id="color-box">
+    <article>
+      <h1></h1>
+    </article>
+  </template>
+</body>
+</html>
