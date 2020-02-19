@@ -1,5 +1,10 @@
-<h1>List page</h1>
-<h2>Let’s have a looksie!</h2>
-<h3>Title: <%= @list.name %></h3>
+<h1>List: <%= @list.name %></h1>
+
+<p>This list has <%= @list.tokens.size %> <%= 'token'.pluralize @list.tokens.size %>.</p>
+
+<%= render @list.tokens %>
+
+<h2>Add a token:</h2>
+<%= render 'tokens/form' %>
 
 <%= link_to 'Back to all lists', lists_path %>

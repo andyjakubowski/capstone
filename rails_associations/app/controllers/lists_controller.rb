@@ -15,7 +15,7 @@ class ListsController < ApplicationController
     @list = List.new(list_params)
 
     if @list.save
-      redirect_to @list
+      redirect_to lists_url
     else
       render 'new'
     end
