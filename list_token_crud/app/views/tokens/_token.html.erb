@@ -1,0 +1,7 @@
+<p>
+  <strong>Token Name:</strong>
+  <%= token.name %>
+  <%= link_to 'Edit Token', edit_list_token_path(token.list, token) %>
+  <%= link_to 'Destroy Token', [token.list, token],
+              method: :delete %>
+</p>
