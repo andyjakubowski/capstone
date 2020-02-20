@@ -1,6 +1,6 @@
 <p>
-  <strong>Token Name:</strong>
-  <%= token.name %>
+  <strong>Name:</strong> <%= token.name %>
+  <strong>Category:</strong> <%= token.category.nil? ? 'None' : token.category.name %>
   <%= link_to 'Edit Token', edit_list_token_path(token.list, token) %>
   <%= link_to 'Destroy Token', [token.list, token],
               method: :delete %>

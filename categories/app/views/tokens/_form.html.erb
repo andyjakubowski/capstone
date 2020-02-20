@@ -8,6 +8,10 @@
   <%= form.text_field :value %>
 </p>
 <p>
+  <%= form.label :category_id %><br>
+  <%= form.collection_select(:category_id, Category.all, :id, :name, include_blank: 'No Category') %>
+</p>
+<p>
   <%= form.submit %>
 </p>
 <% end %>
