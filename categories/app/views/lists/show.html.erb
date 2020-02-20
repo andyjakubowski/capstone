@@ -4,7 +4,10 @@
 
 <p>This list has <%= @list.tokens.size %> <%= 'token'.pluralize @list.tokens.size %>.</p>
 
-<%= render @list.tokens %>
+<% @groupedTokens.each do |categoryName, tokens| %>
+  <h2><%= categoryName %></h2>
+  <%= render tokens %>
+<% end %>
 
 <h2>Add a token:</h2>
 <%= render 'tokens/form', token: [@list, @list.tokens.new] %>

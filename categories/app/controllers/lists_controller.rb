@@ -11,6 +11,8 @@ class ListsController < ApplicationController
   # GET /lists/1
   # GET /lists/1.json
   def show
+    console
+    @groupedTokens = groupTokens(@list)
   end
 
   # GET /lists/new
@@ -71,5 +73,21 @@ class ListsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def list_params
       params.require(:list).permit(:name)
+    end
+
+    def groupTokens(list)
+      result = {}
+
+      list.tokens.each do |token|
+        if token.category.nil?
+          result['None'] = result['None'] || []
+          result['None'].push token
+        else
+          result[token.category.name] = result[token.category.name] || []
+          result[token.category.name].push token
+        end
+      end
+
+      result
     end
 end
