@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<% console %>
 
 <h1>Lists</h1>
 
@@ -25,3 +26,13 @@
 <br>
 
 <%= link_to 'New List', new_list_path %>
+
+<h2>Categories</h2>
+<% if @categories.empty? %>
+  <p>There are no categories yet 🤷🏿‍♀️</p>
+<% else %>
+  <p>There <%= @categories.one? ? 'is' : 'are' %> <%= @categories.size %> <%= 'category'.pluralize @categories.size %>.</p>
+  <%= render 'categories/list' %>
+<% end %>
+
+<%= link_to 'Add Category', new_category_path %>
