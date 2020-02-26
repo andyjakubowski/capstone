@@ -1,0 +1,27 @@
+.people-page {
+  background-color: lightyellow;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
+  padding: 48px;
+
+  &__list {
+    background-color: white;
+    border: 1px solid black;
+    padding: 24px;
+
+    &_size {
+      &-small {
+        font-size: 0.5rem;
+      }
+
+      &-regular {
+        font-size: 1rem;
+      }
+
+      &-large {
+        font-size: 2rem;
+      }
+    }
+  }
+}

@@ -1,1 +1,23 @@
-<%= render @people %>
+<div class="people-page">
+  <section class="people-page__list people-page__list_size-small">
+    <% @people.each do |person| %>
+    <div class="people-page__list-item">
+      <%= render 'person', person: person %>
+    </div>
+   <% end %>
+  </section>
+  <section class="people-page__list people-page__list_size-regular">
+    <% @people.each do |person| %>
+    <div class="people-page__list-item">
+      <%= render 'person', person: person %>
+    </div>
+   <% end %>
+  </section>
+  <section class="people-page__list people-page__list_size-large">
+    <% @people.each do |person| %>
+    <div class="people-page__list-item">
+      <%= render 'person', person: person %>
+    </div>
+   <% end %>
+  </section>
+</div>

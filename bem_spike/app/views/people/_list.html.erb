@@ -1,0 +1,7 @@
+<div class="list">
+  <% @people.each do |person| %>
+    <div class="list__item">
+      <%= render 'person', person: person %>
+    </div>
+   <% end %>
+</div>
