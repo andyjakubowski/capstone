@@ -2,6 +2,6 @@
 <% if @user.avatar.attached? %>
   <%= image_tag @user.avatar, alt: 'User avatar' %>
 <% end %>
-<% if @user.motto.attached? %>
-  <a href="<%= rails_blob_path(@user.motto, disposition: "attachment") %>">Download motto</a>
+<% if @user.color.attached? %>
+  <a href="<%= rails_blob_path(@user.color, disposition: "attachment") %>">Download CSS with the color</a>
 <% end %>

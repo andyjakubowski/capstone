@@ -19,12 +19,12 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.save!
 
-    string = params[:user][:motto]
-    mottoIO = StringIO.new string
-    @user.motto.attach(
-      io: mottoIO,
-      filename: 'motto.txt',
-      content_type: 'text/plain',
+    colorString = params[:user][:color]
+    colorStringIO = StringIO.new ":root { color: #{colorString}; }"
+    @user.color.attach(
+      io: colorStringIO,
+      filename: 'styles.css',
+      content_type: 'text/css',
       identify: false
     )
 
@@ -35,12 +35,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.update(user_params)
 
-    string = params[:user][:motto]
-    mottoIO = StringIO.new string
-    @user.motto.attach(
-      io: mottoIO,
-      filename: 'motto.txt',
-      content_type: 'text/plain',
+    colorString = params[:user][:color]
+    colorStringIO = StringIO.new ":root { color: #{colorString}; }"
+    @user.color.attach(
+      io: colorStringIO,
+      filename: 'styles.css',
+      content_type: 'text/css',
       identify: false
     )
 
