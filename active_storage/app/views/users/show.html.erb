@@ -3,5 +3,5 @@
   <%= image_tag @user.avatar, alt: 'User avatar' %>
 <% end %>
 <% if @user.motto.attached? %>
-  <p style="font-style: italic;"><%= @user.motto.download %></p>
+  <a href="<%= rails_blob_path(@user.motto, disposition: "attachment") %>">Download motto</a>
 <% end %>

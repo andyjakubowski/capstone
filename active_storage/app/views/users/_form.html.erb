@@ -1,0 +1,18 @@
+<%= form_with model: @user, local: true do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :avatar %>
+    <%= form.file_field :avatar %>
+  </div>
+
+  <div>
+    <%= form.label :motto, 'What is your motto?' %>
+    <%= form.text_field :motto %>
+  </div>
+
+  <%= form.submit %>
+<% end %>

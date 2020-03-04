@@ -5,8 +5,8 @@
     <% @users.each do |user| %>
       <li>
         <%= user.name %>: 
-        <% if @user.motto.attached? %>
-          <span style="font-style: italic;"><%= @user.motto.download %></span>
+        <% if user.motto.attached? %>
+          <span style="font-style: italic;"><%= user.motto.download %></span>
         <% end %>
       </li>
     <% end %>

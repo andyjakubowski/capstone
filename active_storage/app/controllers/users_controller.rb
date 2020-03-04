@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id])
   end
 
   def create
@@ -22,7 +23,7 @@ class UsersController < ApplicationController
     mottoIO = StringIO.new string
     @user.motto.attach(
       io: mottoIO,
-      filename: 'awesomeness.txt',
+      filename: 'motto.txt',
       content_type: 'text/plain',
       identify: false
     )
@@ -31,6 +32,19 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user = User.find(params[:id])
+    @user.update(user_params)
+
+    string = params[:user][:motto]
+    mottoIO = StringIO.new string
+    @user.motto.attach(
+      io: mottoIO,
+      filename: 'motto.txt',
+      content_type: 'text/plain',
+      identify: false
+    )
+
+    redirect_to @user
   end
 
   def destroy
