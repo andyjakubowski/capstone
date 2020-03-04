@@ -2,3 +2,6 @@
 <% if @user.avatar.attached? %>
   <%= image_tag @user.avatar, alt: 'User avatar' %>
 <% end %>
+<% if @user.motto.attached? %>
+  <p style="font-style: italic;"><%= @user.motto.download %></p>
+<% end %>

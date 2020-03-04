@@ -5,8 +5,13 @@
   </div>
 
   <div>
-    <%= form.label :name %>
+    <%= form.label :avatar %>
     <%= form.file_field :avatar %>
+  </div>
+
+  <div>
+    <%= form.label :motto, 'What is your motto?' %>
+    <%= form.text_field :motto, value: '' %>
   </div>
 
   <%= form.submit %>

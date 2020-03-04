@@ -15,7 +15,18 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user_params)
+    @user = User.new(user_params)
+    @user.save!
+
+    string = params[:user][:motto]
+    mottoIO = StringIO.new string
+    @user.motto.attach(
+      io: mottoIO,
+      filename: 'awesomeness.txt',
+      content_type: 'text/plain',
+      identify: false
+    )
+
     redirect_to @user
   end
 
