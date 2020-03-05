@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <title>Flexbox Sandbox</title>
+  <meta charset="utf-8">
+  <style>
+    :root {
+      background-color: black;
+      font-family: -apple-system, system-ui, sans-serif;
+    }
+
+    .section {
+      background-color: gray;
+    }
+
+    .example {
+      background-color: white;
+    }
+
+    .example-02__ul {
+      display: flex;
+    }
+
+    .example-04__ul {
+      display: flex;
+    }
+
+  </style>
+</head>
+<body>
+  <main>
+
+    <section class="section">
+      <h1>display: flex defaults</h1>
+      <p>Here’s a normal list:</p>
+      <article class="example example-01">
+        <ul>
+          <li>The &lt;ul&gt; tag gets a display value of block form the User Agent</li>
+          <li>And the &lt;li&gt; gets a display value of list-item</li>
+          <li>display:  [ &lt;display-outside&gt; || &lt;display-inside&gt; ] | &lt;display-listitem&gt; | &lt;display-internal&gt; | &lt;display-box&gt; | &lt;display-legacy&gt;</li>
+        </ul>
+      </article>
+      <p>Now let’s apply flex to ul’s display:</p>
+      <article class="example example-02">
+        <ul class="example-02__ul">
+          <li>The &lt;ul&gt; kept its original padding-left</li>
+          <li>And the &lt;li&gt;s still have a display value of list-item</li>
+          <li>But they are laid out in a row now, because of flex-direction’s default row value</li>
+          <li>They also have different widths, not sure why?</li>
+        </ul>
+      </article>
+      <p>The UA sets these default flex-related styles:</p>
+      <ul>
+        <li>flex-basis: auto</li>
+        <li>flex-direction: row</li>
+        <li>flex-grow: 0</li>
+        <li>flex-shrink: 1</li>
+        <li>flex-wrap: nowrap</li>
+        <li>-moz-box-flex: 0</li>
+      </ul>
+      
+    </section>
+    <section class="section">
+      <h1>Alignment properties and terminology</h1>
+      <p>Every element will have certain alignment properties set on it. Let’s list them.</p>
+      <p>First, a UL with its default display value of block:</p>
+      <article class="example example-03">
+        <ul>
+          <li>justify-content: normal</li>
+          <li>align-content: normal</li>
+          <li>align-items: normal</li>
+          <li>align-self: auto</li>
+          <li>place-content: does not exist</li>
+          <li>place-items: does not exist</li>
+          <li>row-gap: normal</li>
+          <li>column-gap: normal</li>
+          <li>gap: does not exist</li>
+        </ul>
+      </article>
+
+      <p>And now the same properties after we set the UL’s display to flex:</p>
+      <article class="example example-04">
+        <ul class="example-04__ul">
+          <li>justify-content: normal</li>
+          <li>align-content: normal</li>
+          <li>align-items: normal</li>
+          <li>align-self: auto</li>
+          <li>place-content: does not exist</li>
+          <li>place-items: does not exist</li>
+          <li>row-gap: normal</li>
+          <li>column-gap: normal</li>
+          <li>gap: does not exist</li>
+        </ul>
+      </article>
+      <p>Changing the UL’s display from the default block to flex does not change the values of these alignment properties.</p>
+      <p>Let’s figure out what “normal” and “auto” means.</p>
+      <p>To understand it, let’s back up and explain a few flex-related terms, though.</p>
+      <img src="flex-direction-terms.svg">
+      <dl>
+        <dt>Flex container</dt>
+        <dd>An element with a (computed) display value of flex or inline-flex. Sorta similar to block and inline-block</dd>
+        <dt>Flex item</dt>
+        <dd>An in-flow child of a flex container</dd>
+        <dt>Wait what’s in-flow?</dt>
+        <dd>Basically any element positioned in the normal flow of the document. Elements that are not in-flow are floated items, or elements with position values of absolute and fixed.</dd>
+        <dt>Main axis</dt>
+        <dd>The primary axis along which flex items (the kidz) are laid out.</dd>
+        <dt>Main dimension</dt>
+        <dd>The main axis extends in the main dimension</dd>
+        <dt>main-start and main-end</dt>
+        <dd>Flex items are placed within the flex container starting on the main-start side and going toward the main-end side.</dd>
+        <dt>main size</dt>
+        <dd>The width or height of a flex container or flex item, whichever is in the main dimension. So if you have a “row” flex container its main dimension will be horizontal, and so its width will be its main size. So main size corresponds to the height or width, including min- and max- main size.</dd>
+        <dt>Cross axis and cross dimension</dt>
+        <dd>The axis perpendicular to the main axis extending in the cross dimension.</dd>
+        <dt>cross-start and cross-end</dt>
+        <dd>Check out main-start and main-end</dd>
+        <dt>cross size</dt>
+        <dd>Check out main size</dd>
+      </dl>
+      <p>Whoa that was a lot of terms. Geez!</p>
+    </section>
+
+    <section class="section">
+      <h1>justify-content</h1>
+      <p>Anyone let’s get back to justify-content and its normal value</p>
+      <dl>
+        <dt>justify-content</dt>
+        <dd>Determines how the UA distributes space between and around content items along the main axis of a flex container.</dd>
+      </dl>
+      <p>Okay so I guess if I stick to flex-direction: row, this would distribute the space horizontally, moving the items left and right?</p>
+      <p>So MDN tells me the normal value means that the items are packed in their default position as if no justify-content value was set. And that in grid and flex containers (wink wink) that value behaves like stretch.</p>
+      <p>Okay this is funny. So first MDN tells me that normal behaves like stretch in grid and flex containers, but check out what I see under the definition of stretch:</p>
+      <blockquote>Note: stretch is not supported by flexible boxes (flexbox).</blockquote>
+      
+      <p>Let’s test this out. First, three divs in a div without changing their styles at all:</p>
+      <article class="example example-05">
+        <div class="example-05__container-div"><div>DIV A</div><div>DIV B</div><div>DIV C</div></div>
+      </article>
+      <p>So obviously a div gets a display value of block from the UA. And justify-content is the default normal value.</p>
+
+      <p>Let’s set display: flex on the container div now</p>
+      <article class="example example-06">
+        <div class="example-06__container-div" style="display: flex;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+      <p>Okay so first off you can see that justify-content: normal allegedly acting like justify-content: stretch is a bunch of malarkey. stretch does not seem to have any effect on flex items inside a flex container. Maybe it’s different for grids, but that’s not what I’m looking into right now.</p>
+      <p>Let’s try all the different values for justify-content with the above boxes.</p>
+      <h2>/* Positional alignment */</h2>
+      <h3>justify-content: center;     /* Pack items around the center */</h3>
+      <article class="example example-07">
+        <div class="example-07__container-div" style="display: flex; justify-content: center;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: start;      /* Pack items from the start */</h3>
+      <article class="example example-08">
+        <div class="example-08__container-div" style="display: flex; justify-content: start;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: end;        /* Pack items from the end */</h3>
+      <article class="example example-09">
+        <div style="display: flex; justify-content: end;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: flex-start; /* Pack flex items from the start */</h3>
+      <p>So here it looks exactly like justify-content: start. Apparently this is treated like start for items that are not children of a flex container.</p>
+      <article class="example example-10">
+        <div style="display: flex; justify-content: flex-start;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>start vs. flex-start: what’s the difference?</h3>
+      <p>So apparently the difference has to do with respecting flex-direction. row is the default, and for left-to-right scripts that means we pack flex items from main-start. In non-flex containers the items will be packed toward the start edge of the alignment container in the main axis.</p>
+      <h4>justify-content: flex-start; display: flex; flex-direction: row;</h4>
+      <article class="example example-11">
+        <div style="display: flex; justify-content: flex-start; flex-direction: row;">
+          <div style="background-color: yellow; width: 200px;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+      <h4>justify-content: flex-start; display: flex; flex-direction: row-reverse;</h4>
+      <article class="example example-12">
+        <div style="display: flex; justify-content: flex-start; flex-direction: row-reverse;">
+          <div style="background-color: yellow; width: 200px;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+      <h4>justify-content: flex-start; Directionality: RTL; Arabic script; display: flex; flex-direction: row;</h4>
+      <article class="example example-14">
+        <div dir="auto" style="display: flex; justify-content: flex-start; flex-direction: row;">
+          <div style="background-color: yellow; width: 200px;">اليسار</div>
+          <div style="background-color: magenta;">خاطئ</div>
+          <div style="background-color: turquoise;">العربية</div>
+        </div>
+      </article>
+      <h4>justify-content: flex-start; Directionality: RTL; Arabic script; display: flex; flex-direction: row-reverse;</h4>
+      <article class="example example-14">
+        <div dir="auto" style="display: flex; justify-content: flex-start; flex-direction: row-reverse;">
+          <div style="background-color: yellow; width: 200px;">اليسار</div>
+          <div style="background-color: magenta;">خاطئ</div>
+          <div style="background-color: turquoise;">العربية</div>
+        </div>
+      </article>
+
+      <h4>justify-content: start; display: flex; flex-direction: row;</h4>
+      <article class="example example-11">
+        <div style="display: flex; justify-content: start; flex-direction: row;">
+          <div style="background-color: yellow; width: 200px;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+      <h4>justify-content: start; display: flex; flex-direction: row-reverse;</h4>
+      <article class="example example-12">
+        <div style="display: flex; justify-content: start; flex-direction: row-reverse;">
+          <div style="background-color: yellow; width: 200px;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+      <h4>justify-content: start; Directionality: RTL; Arabic script; display: flex; flex-direction: row;</h4>
+      <article class="example example-14">
+        <div dir="auto" style="display: flex; justify-content: start; flex-direction: row;">
+          <div style="background-color: yellow; width: 200px;">اليسار</div>
+          <div style="background-color: magenta;">خاطئ</div>
+          <div style="background-color: turquoise;">العربية</div>
+        </div>
+      </article>
+      <h4>justify-content: start; Directionality: RTL; Arabic script; display: flex; flex-direction: row-reverse;</h4>
+      <article class="example example-14">
+        <div dir="rtl" style="display: flex; justify-content: start; flex-direction: row-reverse;">
+          <div style="background-color: yellow; width: 200px;">اليسار</div>
+          <div style="background-color: magenta;">خاطئ</div>
+          <div style="background-color: turquoise;">العربية</div>
+        </div>
+      </article>
+
+      <h4>justify-content: start;</h4>
+      <article class="example example-11">
+        <div style="justify-content: start;">
+          <div style="background-color: yellow; width: 200px;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+      <h4>justify-content: start; Directionality: RTL; Arabic script;</h4>
+      <article class="example example-14">
+        <div dir="rtl" style="justify-content: start;">
+          <div style="background-color: yellow; width: 200px;">اليسار</div>
+          <div style="background-color: magenta;">خاطئ</div>
+          <div style="background-color: turquoise;">العربية</div>
+        </div>
+      </article>
+
+      
+      
+      justify-content: flex-end;   /* Pack flex items from the end */
+      justify-content: left;       /* Pack items from the left */
+      justify-content: right;      /* Pack items from the right */
+    </section>
+  </main>
+</body>
+</html>
