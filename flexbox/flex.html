@@ -58,6 +58,18 @@
         <li>flex-wrap: nowrap</li>
         <li>-moz-box-flex: 0</li>
       </ul>
+      <p>I found a nice overview of what happens to contained (newly) flex items when the parent becomes a flex container:</p>
+      <blockquote>
+        <p>As with all properties in CSS, some initial values are defined, so when creating a flex container all of the contained flex items will behave in the following way.</p>
+        <ul>
+          <li>Items display in a row (the flex-direction property's default is row).</li>
+          <li>The items start from the start edge of the main axis.</li>
+          <li>The items do not stretch on the main dimension, but can shrink.</li>
+          <li>The items will stretch to fill the size of the cross axis.</li>
+          <li>The flex-basis property is set to auto.</li>
+          <li>The flex-wrap property is set to nowrap.</li>
+        </ul>
+      </blockquote>
       
     </section>
     <section class="section">
@@ -121,9 +133,18 @@
       <p>Whoa that was a lot of terms. Geez!</p>
     </section>
 
+
     <section class="section">
       <h1>justify-content</h1>
-      <p>Anyone let’s get back to justify-content and its normal value</p>
+      <p>Anyway let’s get back to justify-content and its normal value</p>
+      <p>Syntax</p>
+      <pre>
+        normal | &lt;content-distribution&gt; | &lt;overflow-position&gt;? [ &lt;content-position&gt; | left | right ]
+        where 
+        &lt;content-distribution&gt; = space-between | space-around | space-evenly | stretch
+        &lt;overflow-position&gt; = unsafe | safe
+        &lt;content-position&gt; = center | start | end | flex-start | flex-end
+      </pre>
       <dl>
         <dt>justify-content</dt>
         <dd>Determines how the UA distributes space between and around content items along the main axis of a flex container.</dd>
@@ -149,6 +170,7 @@
       </article>
       <p>Okay so first off you can see that justify-content: normal allegedly acting like justify-content: stretch is a bunch of malarkey. stretch does not seem to have any effect on flex items inside a flex container. Maybe it’s different for grids, but that’s not what I’m looking into right now.</p>
       <p>Let’s try all the different values for justify-content with the above boxes.</p>
+
       <h2>/* Positional alignment */</h2>
       <h3>justify-content: center;     /* Pack items around the center */</h3>
       <article class="example example-07">
@@ -272,11 +294,102 @@
         </div>
       </article>
 
+      <h3>Anywayyy back to justify-content values</h3>
+      <h3>justify-content: flex-end;   /* Pack flex items from the end */</h3>
+      <article class="example example-15">
+        <div style="display: flex; justify-content: flex-end;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: left;      /* Pack items from the left */</h3>
+      <article class="example example-16">
+        <div style="display: flex; justify-content: left;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: right;      /* Pack items from the right */</h3>
+      <article class="example example-17">
+        <div style="display: flex; justify-content: right;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
       
-      
-      justify-content: flex-end;   /* Pack flex items from the end */
-      justify-content: left;       /* Pack items from the left */
-      justify-content: right;      /* Pack items from the right */
+      <h2>/* Distributed alignment */</h2>
+
+      <h3>justify-content: space-between;</h3>
+      <p>/* Distribute items evenly. The first item is flush with the start, the last is flush with the end */</p>
+      <article class="example example-18">
+        <div style="display: flex; justify-content: space-between;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: space-around;</h3>
+      <p>/* Distribute items evenly. Items have a half-size space on either end */</p>
+      <article class="example example-19">
+        <div style="display: flex; justify-content: space-around;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: space-evenly;</h3>
+      <p>/* Distribute items evenly. Items have equal space around them */</p>
+      <article class="example">
+        <div style="display: flex; justify-content: space-evenly;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: stretch;</h3>
+      <p>/* Distribute items evenly. Stretch 'auto'-sized items to fit the container */</p>
+      <p>As mentioned above, stretch does not work with flex containers.</p>
+      <article class="example">
+        <div style="display: flex; justify-content: stretch;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h2>/* Overflow alignment */</h2>
+  
+      <h3>justify-content: safe center;</h3>
+      <p>Used alongside an alignment keyword. If the chosen keyword means that the item overflows the alignment container causing data loss, the item is instead aligned as if the alignment mode were start.</p>
+      <article class="example">
+        <div style="display: flex; justify-content: safe center;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+
+      <h3>justify-content: unsafe center;</h3>
+      <p>Used alongside an alignment keyword. Regardless of the relative sizes of the item and alignment container, and regardless of whether overflow which causes data loss might happen, the given alignment value is honored.</p>
+      <article class="example">
+        <div style="display: flex; justify-content: unsafe center;">
+          <div style="background-color: yellow;">DIV A</div>
+          <div style="background-color: magenta;">DIV B</div>
+          <div style="background-color: turquoise;">DIV C</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <h1>align-content</h1>
     </section>
   </main>
 </body>
