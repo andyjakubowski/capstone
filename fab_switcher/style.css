@@ -1,0 +1,59 @@
+body {
+  background-color: azure;
+}
+
+.transition-test:hover {
+  width: 200px;
+}
+
+.token-container {
+  --token-size: 56px;
+  --token-margin-bottom: 24px;
+  --token-margin-side: 16px;
+  box-sizing: border-box;
+}
+
+.token-container * {
+  box-sizing: inherit;
+}
+
+.token-list {
+  background-color: midnightblue;
+  height: var(--token-size);
+  width: var(--token-size);
+  border-radius: calc(var(--token-size) / 2);
+
+  position: fixed;
+  right: var(--token-margin-side);
+  bottom: var(--token-margin-bottom);
+
+  transition: width 0.3s cubic-bezier(.82,.04,.33,1.12) 0s;
+}
+
+.token-list_expanded {
+  width: calc(100vw - calc(2 * var(--token-margin-side)));
+}
+
+.token-button {
+  --token-button-margin: 4px;
+
+  background-color: black;
+  border-radius: calc(var(--token-size) / 2);
+  height: calc(var(--token-size) - calc(var(--token-button-margin) * 2));
+  width: calc(var(--token-size) - calc(var(--token-button-margin) * 2));
+  margin: var(--token-button-margin);
+
+  position: fixed;
+  right: var(--token-margin-side);
+  bottom: var(--token-margin-bottom);
+
+  cursor: pointer;
+}
+
+.token-button:hover {
+  opacity: 0.50;
+}
+
+.token-button_expanded {
+  background-color: white;
+}
