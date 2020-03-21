@@ -888,6 +888,7 @@ const TokenHub = (function makeTokenHub() {
           --token-color-interactive-primary: #FF820F;
           --token-color-interactive-inverse: white;
           --token-color-background-canvas: #0F0817;
+          --token-color-background-canvas-translucent: #0F0817FA;
           --token-font-size-extra-large: 48;
           --token-font-size-large: 32;
           --token-font-size-medium: 24;
@@ -903,9 +904,11 @@ const TokenHub = (function makeTokenHub() {
           --token-radius-large: 16;
           --token-radius-medium: 12;
           --token-radius-regular: 8;
+
           --token-size: 56px;
           --token-margin-bottom: 24px;
           --token-margin-side: 16px;
+          --token-border-width: 1px;
           
           box-sizing: border-box;
 
@@ -920,12 +923,14 @@ const TokenHub = (function makeTokenHub() {
         }
 
         .token__list-container {
-          background-color: var(--token-color-background-canvas);
+          background-color: var(--token-color-background-canvas-translucent);
+          border: var(--token-border-width) solid rgba(255, 255, 255, 0.1);
           height: var(--token-size);
           width: var(--token-size);
           border-radius: calc(var(--token-size) / 2);
-          padding: 0 var(--token-size) 0 0;
+          padding: 0 calc(var(--token-size) - (var(--token-border-width) * 2)) 0 0;
           margin: 0;
+          box-shadow: 0 2px 24px rgba(0, 0, 0, 0.16);
 
           position: fixed;
           right: var(--token-margin-side);
@@ -1217,9 +1222,9 @@ const TokenHub = (function makeTokenHub() {
 
       init() {
         SPACE_NAME = document.getElementById('tokenhub-widget').dataset.space;
-        API_HOST = document.getElementById('tokenhub-widget').dataset.host;
-        API_URL = `http://${API_HOST}`;
-        CABLE_URL = `ws://${API_HOST}/cable`;
+        // API_HOST = document.getElementById('tokenhub-widget').dataset.host;
+        API_URL = document.getElementById('tokenhub-widget').dataset.api;
+        CABLE_URL = document.getElementById('tokenhub-widget').dataset.cable;
         root = document.documentElement;
         initAndRenderWithLocalData();
         w.setTimeout(addStyleTransform, 500);
