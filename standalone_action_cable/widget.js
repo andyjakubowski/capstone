@@ -675,7 +675,7 @@ const TokenHub = (function makeTokenHub() {
 
       addList(list) {
         data.lists.push(list);
-        saveToLocalStorage();
+        this.getTokens(list.id);
       },
 
       updateList(list) {
@@ -763,59 +763,290 @@ const TokenHub = (function makeTokenHub() {
   }());
 
   const View = (function makeView() {
-    const build = function buildView() {
+    const Button = (function makeButton() {
+      let domElement;
+      let status;
+
+      const createDomElement = function createDomElement() {
+        const element = document.createElement('div');
+        element.classList.add('token__button');
+        element.innerHTML = String.raw`
+        <svg height="30" viewBox="0 0 29 30" width="29" xmlns="http://www.w3.org/2000/svg">
+          <path d="m68.5000006 35-13.5056228 5.9525583 13.5056228 5.940099 13.5056236-5.940099zm-14.5000006 23.9600674 13.694445 6.0399326v-16.7096683l-13.694445-6.0274375zm15.3055562-10.6697357v16.7096683l13.6944444-6.0399326v-16.6971732z" fill="var(--token-button-icon-fill)" transform="translate(-54 -35)"/>
+          </svg>
+        `;
+        return element;
+      };
+
+      const expand = function expand() {
+        domElement.classList.add('token__button_expanded');
+        status = 'expanded';
+        List.expand();
+      };
+
+      const collapse = function collapse() {
+        domElement.classList.remove('token__button_expanded');
+        status = 'collapsed';
+        List.collapse();
+      };
+
+      const clickHandler = function clickHandler(e) {
+        switch (status) {
+          case 'collapsed':
+            expand();
+            break;
+          case 'expanded':
+            collapse();
+            break;
+          default:
+            console.log('Button has unknown status.');
+        }
+      };
+
+      return {
+        domElement() {
+          return domElement;
+        },
+
+        init() {
+          status = 'collapsed';
+          domElement = createDomElement();
+          domElement.addEventListener('click', clickHandler);
+          return this;
+        },
+      };
+    }());
+
+    const List = (function makeList() {
+      let domElement;
+      let contentElement;
+      let status;
+
+      const createContentElement = function createContentElement() {
+        const content = document.createElement('ul');
+        content.classList.add('token__list-content');
+        return content;
+      };
+
+      const createContainerElement = function createContainerElement() {
+        const container = document.createElement('div');
+        container.classList.add('token__list-container');
+        return container;
+      };
+
+      const expand = function expand() {
+        domElement.classList.add('token__list-container_expanded');
+        status = 'expanded';
+      };
+
+      const collapse = function collapse() {
+        domElement.classList.remove('token__list-container_expanded');
+        status = 'collapsed';
+      };
+
+      return {
+        expand() {
+          expand();
+        },
+
+        collapse() {
+          collapse();
+        },
+
+        domElement() {
+          return domElement;
+        },
+
+        contentElement() {
+          return contentElement;
+        },
+
+        init() {
+          status = 'collapsed';
+          domElement = createContainerElement();
+          contentElement = createContentElement();
+
+          domElement.append(contentElement);
+          return this;
+        },
+      };
+    }());
+
+    const createStyleTag = function createStyleTag() {
       const styleTag = document.createElement('style');
+
       styleTag.innerHTML = String.raw`
-        .token-list-switcher {
-          background-color: black;
-          color: gray;
+
+        .token__container {
+          --token-spacing-tiny: 4;
+          --token-color-text-primary: #FFFFFF;
+          --token-color-text-secondary: #CDC7C7;
+          --token-color-text-tertiary: #5F5A64;
+          --token-color-text-inverse-primary: #ADA6B5;
+          --token-color-background-surface: #302C35;
+          --token-color-background-inverse: #58535D;
+          --token-color-interactive-primary: #FF820F;
+          --token-color-interactive-inverse: white;
+          --token-color-background-canvas: #0F0817;
+          --token-font-size-extra-large: 48;
+          --token-font-size-large: 32;
+          --token-font-size-medium: 24;
+          --token-font-size-regular: 20;
+          --token-font-size-small: 16;
+          --token-spacing-extra-large: 72;
+          --token-spacing-large: 48;
+          --token-spacing-medium: 24;
+          --token-spacing-regular: 16;
+          --token-spacing-small: 8;
+          --token-font-weight-bold: 700;
+          --token-font-weight-medium: 500;
+          --token-radius-large: 16;
+          --token-radius-medium: 12;
+          --token-radius-regular: 8;
+          --token-size: 56px;
+          --token-margin-bottom: 24px;
+          --token-margin-side: 16px;
+          
+          box-sizing: border-box;
+
+          font-family: -apple-system, system-ui, sans-serif;
+          font-size: var(--token-font-size-small)px;
+          color: var(--token-color-text-tertiary);
+
         }
 
-        .token-list-switcher__lists {
+        .token__container * {
+          box-sizing: inherit;
+        }
+
+        .token__list-container {
+          background-color: var(--token-color-background-canvas);
+          height: var(--token-size);
+          width: var(--token-size);
+          border-radius: calc(var(--token-size) / 2);
+          padding: 0 var(--token-size) 0 0;
+          margin: 0;
+
+          position: fixed;
+          right: var(--token-margin-side);
+          bottom: var(--token-margin-bottom);
+
+          transition: width 0.3s cubic-bezier(.82,.04,.33,1.12) 0s;
+        }
+
+        .token__list-container .token__list-content {
+          opacity: 0;
+          overflow: hidden;
+        }
+
+        .token__list-container_expanded {
+          width: calc(100vw - calc(2 * var(--token-margin-side)));
+        }
+
+        .token__list-container_expanded .token__list-content {
+          opacity: 1;
+          overflow: auto;
+        }
+
+        .token__list-content {
+          height: 100%;
           display: flex;
-          height: 56px;
           justify-content: flex-start;
           align-items: center;
-          overflow: auto;
           list-style: none;
-          padding: 0;
+          margin: 0;
+          padding: 0 0 0 16px;
         }
 
-        .token-list-switcher__list-item {
+        .token__list-item {
           flex-shrink: 0;
-          padding: 16px;
+          padding: 8px;
           cursor: pointer;
         }
 
-        .token-list-switcher__list-item:hover {
-          color: white;
+        .token__list-item:not(:last-of-type) {
+          margin-right: 8px;
         }
 
-        .token-list-switcher__list-item_active {
+        .token__list-item:hover {
+          color: var(--token-color-text-primary);
+        }
+
+        .token__list-item_active {
           color: seashell;
         }
 
-        .token-list-switcher__expired-label {
+        .token__button {
+          --token-button-margin: 4px;
+          --token-button-icon-fill: #EAE7EE;
+
+          background-color: var(--token-color-background-surface);
+          border-radius: calc(var(--token-size) / 2);
+          height: calc(var(--token-size) - calc(var(--token-button-margin) * 2));
+          width: calc(var(--token-size) - calc(var(--token-button-margin) * 2));
+          margin: var(--token-button-margin);
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          position: fixed;
+          right: var(--token-margin-side);
+          bottom: var(--token-margin-bottom);
+
+          cursor: pointer;
+        }
+
+        .token__button:hover {
+          opacity: 0.85;
+        }
+
+        .token__button_expanded {
+          background-color: white;
+          --token-button-icon-fill: var(--token-color-interactive-primary);
+        }
+
+        .token__button-icon {
+          color: red;
+        }
+
+        .token__expired-label {
           flex-shrink: 0;
           padding: 16px;
         }
-      `;
-      document.head.append(styleTag);
 
-      const divTag = document.createElement('div');
-      divTag.setAttribute('aria-hidden', 'true');
-      divTag.classList.add('token-list-switcher')
-      divTag.innerHTML = String.raw`
-        <ul class="token-list-switcher__lists">
-        </ul>`;
-      document.body.prepend(divTag);
+        @media screen and (min-width: 832px) {
+          .token__list-container_expanded {
+            width: 800px;
+          }
+        }
+      `;
+      return styleTag;
+    };
+
+    const createContainerTag = function createContainerTag() {
+      const container = document.createElement('div');
+      container.setAttribute('aria-hidden', 'true');
+      container.classList.add('token__container')
+      return container;
+    };
+
+    const build = function buildView() {
+      const styleTag = createStyleTag();
+      const containerTag = createContainerTag();
+      const listTag = List.init().domElement();
+      const buttonTag = Button.init().domElement();
+
+      containerTag.append(listTag, buttonTag);
+      document.head.append(styleTag);
+      document.body.append(containerTag);
     };
 
     const buildListItem = function buildListItem(data) {
       const li = document.createElement('li');
 
       li.innerText = data.name;
-      li.classList.add('token-list-switcher__list-item');
+      li.classList.add('token__list-item');
       li.setAttribute('data-id', data.id);
       li.addEventListener('click', (e) => Controller.listItemClicked(e));
       return li;
@@ -834,7 +1065,7 @@ const TokenHub = (function makeTokenHub() {
         if (data.status === 'expired') {
           const li = document.createElement('li');
           li.innerText = 'Space expired.';
-          li.classList.add('token-list-switcher__expired-label');
+          li.classList.add('token__expired-label');
           ul.append(li);
           return;
         }
@@ -846,7 +1077,7 @@ const TokenHub = (function makeTokenHub() {
           const li = buildListItem(list);
 
           if (list.id === active_list_id) {
-            li.classList.add('token-list-switcher__list-item_active');
+            li.classList.add('token__list-item_active');
           }
 
           ul.append(li);
@@ -855,14 +1086,14 @@ const TokenHub = (function makeTokenHub() {
         if (data.status === 'offline') {
           const li = document.createElement('li');
           li.innerText = 'Offline';
-          li.classList.add('token-list-switcher__list-item');
+          li.classList.add('token__list-item');
           ul.append(li);
         }
       },
 
       init() {
         build();
-        ul = document.querySelector('.token-list-switcher__lists');
+        ul = List.contentElement();
       },
     };
   }());

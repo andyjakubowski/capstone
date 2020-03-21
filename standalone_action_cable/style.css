@@ -1,0 +1,8 @@
+:root {
+  color: var(--remote-color-text-primary);
+  background-color: var(--remote-color-background-canvas, yellow);
+}
+
+h1 {
+  font-size: var(--remote-crazy-huge);
+}
